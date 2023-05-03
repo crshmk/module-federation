@@ -1,7 +1,11 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ModuleFederationPlugin = 
+  require('webpack/lib/container/ModuleFederationPlugin')
 
 const resolve = filePath => path.resolve(__dirname, filePath)
+
+const { dependencies } = require("./package.json")
 
 module.exports = {
   mode: 'development',
@@ -11,9 +15,12 @@ module.exports = {
   output: {
     assetModuleFilename: '[name][ext]',
     clean: true,
-    filename: '[name].[contenthash].bundle.js',
+    filename: '[name].remote1.[contenthash].js',
     path: resolve('dist'),
-    publicPath: '/'
+    publicPath: 'http://localhost:9001/'
+  },
+  resolve: {
+    extensions: ['.js', '.json'],
   },
   module: {
     rules: [
@@ -38,6 +45,25 @@ module.exports = {
     ]
   },
   plugins: [
+    new ModuleFederationPlugin({
+      name: 'remote1',
+      filename: 'remoteEntry.js',
+      remotes: {},
+      exposes: {
+        './Button': './src/Button/index.js',
+        './Img': './src/Img/index.js'
+      },
+      shared: {
+        ...dependencies,
+        react: {
+          singleton: true,
+          requiredVersion: dependencies.react,
+        },
+        "react-dom": {
+          singleton: true,
+          requiredVersion: dependencies["react-dom"],
+        },
+      },    }),
     new HtmlWebpackPlugin({
       template: resolve('src/index.html')
     })
@@ -45,10 +71,10 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     historyApiFallback: true,
-    hot: true,
-    liveReload: true,
-    open: true,
-    port: 4200,
-    static: resolve('dist')
+    // hot: true,
+    // liveReload: true,
+    // open: true,
+    port: 9001,
+    // static: resolve('dist')
   }
 }
