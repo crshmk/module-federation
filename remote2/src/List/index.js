@@ -2,15 +2,19 @@ import React from 'react'
 
 import './list.css'
 
-const List = () => (
-  <ul>
-    <li>one</li>
-    <li>two</li>
-    <li>three</li>
-    <li>three</li>
+import useCount from 'host/useCount'
 
-  </ul>
-)
+const List = () => {
+  const { count } = useCount()
+  return (
+    <ul>
+      <li>one</li>
+      <li>two</li>
+      <li>three</li>
+      <li>count is {count}</li>
+    </ul>
+  )
+} 
 
 export default List
 

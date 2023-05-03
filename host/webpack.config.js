@@ -49,10 +49,13 @@ module.exports = {
       name: 'host',
       filename: 'remoteEntry.js',
       remotes: {
+        host: 'host@http://localhost:8001/remoteEntry.js',
         remote1: 'remote1@http://localhost:9001/remoteEntry.js',
         remote2: 'remote2@http://localhost:9002/remoteEntry.js'
       },
-      exposes: {},
+      exposes: {
+        './useCount': './src/store/useCount.js'
+      },
       shared: {
         ...dependencies,
         react: {

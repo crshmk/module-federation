@@ -1,14 +1,17 @@
 import React from 'react'
 
-import Button from './Button'
+import Buttons from './Buttons'
  import Img from './Img'
+ import { CountProvider } from 'host/useCount'
 
 const App = () => (
+  <CountProvider>
   <div>
     <p>remote 1 development container</p>
-    <Button />
+    <Buttons />
     <Img />
   </div>
+  </CountProvider>
 )
 
 export default App
