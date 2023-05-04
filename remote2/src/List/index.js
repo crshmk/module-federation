@@ -10,7 +10,6 @@ const List = () => {
     <ul>
       <li>one</li>
       <li>two</li>
-      <li>three</li>
       <li>count is {count}</li>
     </ul>
   )

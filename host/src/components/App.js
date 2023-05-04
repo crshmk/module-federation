@@ -1,24 +1,24 @@
 import React, { Suspense } from 'react'
+import { BrowserRouter } from 'react-router-dom'
 
 import './index.css'
 
-const Buttons = React.lazy(() => import('remote1/Buttons'))
-const Img = React.lazy(() => import('remote1/Img'))
-const List = React.lazy(() => import('remote2/List'))
+import Nav from './Nav'
+import Routes from './Routes'
 import { CountProvider } from 'host/useCount'
 
 const App = () => (
+  <BrowserRouter>
   <div>
     <p>The host app</p>
+    <Nav />
     <Suspense fallback={null}> 
       <CountProvider>
-      <List />
-      <Buttons />
-      <Img />
+        <Routes />
       </CountProvider>
     </Suspense>
   </div>
+  </BrowserRouter>
 )
 
 export default App
-

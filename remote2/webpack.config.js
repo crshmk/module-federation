@@ -5,7 +5,7 @@ const ModuleFederationPlugin =
 
 const resolve = filePath => path.resolve(__dirname, filePath)
 
-const { dependencies } = require("./package.json")
+const { dependencies } = require('./package.json')
 
 module.exports = {
   mode: 'development',
@@ -60,11 +60,12 @@ module.exports = {
           singleton: true,
           requiredVersion: dependencies.react,
         },
-        "react-dom": {
+        'react-dom': {
           singleton: true,
-          requiredVersion: dependencies["react-dom"],
+          requiredVersion: dependencies['react-dom'],
         },
-      },    }),
+      },    
+    }),
     new HtmlWebpackPlugin({
       template: resolve('src/index.html')
     })

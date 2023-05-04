@@ -5,7 +5,7 @@ const ModuleFederationPlugin =
 
 const resolve = filePath => path.resolve(__dirname, filePath)
 
-const { dependencies } = require("./package.json")
+const { dependencies } = require('./package.json')
 
 module.exports = {
   mode: 'development',
@@ -65,6 +65,10 @@ module.exports = {
         'react-dom': {
           singleton: true,
           requiredVersion: dependencies['react-dom'],
+        },
+        'react-router-dom': {
+          singleton: true,
+          requiredVersion: dependencies['react-router-dom'],
         },
       },
     }),
