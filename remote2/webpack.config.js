@@ -3,12 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ModuleFederationPlugin = 
   require('webpack/lib/container/ModuleFederationPlugin')
 
+const { dependencies } = require('./package.json')
+const { publicPaths, remotes } = require('../webpack.env')
+
 const resolve = filePath => path.resolve(__dirname, filePath)
 
-const { dependencies } = require('./package.json')
-
-module.exports = {
-  mode: 'development',
+module.exports = (_, argv) => ({
+  // mode: 'development',
   entry: {
     main: resolve('src/index.js')
   },
@@ -17,7 +18,9 @@ module.exports = {
     clean: true,
     filename: '[name].remote2.[contenthash].js',
     path: resolve('dist'),
-    publicPath: 'http://localhost:9002/'
+    publicPath: (argv.mode === 'development' 
+    ? publicPaths.remote2.local 
+    : publicPaths.remote2.remote)
   },
   resolve: {
     extensions: ['.js', '.json'],
@@ -49,7 +52,9 @@ module.exports = {
       name: 'remote2',
       filename: 'remoteEntry.js',
       remotes: {
-        host: 'host@http://localhost:8001/remoteEntry.js'
+        host: (argv.mode === 'development' 
+        ? remotes.host.local 
+        : remotes.host.remotes)
       },
       exposes: {
         './List': './src/List/index.js'
@@ -77,6 +82,6 @@ module.exports = {
     // liveReload: true,
     // open: true,
     port: 9002,
-    // static: resolve('dist')
+    static: resolve('dist')
   }
-}
+})

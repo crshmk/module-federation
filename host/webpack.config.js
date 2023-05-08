@@ -3,12 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ModuleFederationPlugin = 
   require('webpack/lib/container/ModuleFederationPlugin')
 
+const { dependencies } = require('./package.json')
+const { publicPaths, remotes } = require('../webpack.env')
+
 const resolve = filePath => path.resolve(__dirname, filePath)
 
-const { dependencies } = require('./package.json')
-
-module.exports = {
-  mode: 'development',
+module.exports = (_, argv) =>  ({
+  // mode: 'development',
  // entry: {
    // main: resolve('src/index.js')
  // },
@@ -20,7 +21,9 @@ module.exports = {
     clean: true,
     filename: '[name].host.[contenthash].js',
     path: resolve('dist'),
-    publicPath: 'http://localhost:8001/'
+    publicPath:(argv.mode === 'development' 
+    ? publicPaths.host.local 
+    : publicPaths.host.remote)
   },
   module: {
     rules: [
@@ -49,9 +52,15 @@ module.exports = {
       name: 'host',
       filename: 'remoteEntry.js',
       remotes: {
-        host: 'host@http://localhost:8001/remoteEntry.js',
-        remote1: 'remote1@http://localhost:9001/remoteEntry.js',
-        remote2: 'remote2@http://localhost:9002/remoteEntry.js'
+        host: (argv.mode === 'development' 
+        ? remotes.host.local 
+        : remotes.host.remote),
+        remote1: (argv.mode === 'development' 
+        ? remotes.remote1.local
+        : remotes.remote1.remote),
+        remote2: (argv.mode === 'development' 
+        ? remotes.remote2.local 
+        : remotes.remote1.remote)
       },
       exposes: {
         './useCount': './src/store/useCount.js'
@@ -85,4 +94,4 @@ module.exports = {
     port: 8001,
     // static: resolve('dist')
   }
-}
+})

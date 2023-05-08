@@ -4,9 +4,8 @@
   "description": "Basic Webpack React Jest setup for 2022",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "dev": "webpack s",
-    "start": "webpack s",
+    "build": "webpack --mode=production",
+    "start": "webpack s --mode=development",
     "test": "jest"
   },
   "keywords": [
