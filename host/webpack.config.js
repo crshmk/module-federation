@@ -82,7 +82,9 @@ module.exports = (_, argv) =>  ({
       },
     }),
     new HtmlWebpackPlugin({
-      template: resolve('src/index.html')
+      template: (argv.mode === 'development' 
+      ? './src/index-dev.html' 
+      : './src/index.html')
     })
   ],
   devtool: 'inline-source-map',
