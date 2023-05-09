@@ -8,7 +8,7 @@ const { publicPaths, remotes } = require('../webpack.env')
 
 const resolve = filePath => path.resolve(__dirname, filePath)
 
-module.exports = (_, argv) =>  ({
+module.exports = (_, argv) => ({
   // mode: 'development',
  // entry: {
    // main: resolve('src/index.js')
