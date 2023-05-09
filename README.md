@@ -25,6 +25,14 @@ npm run build
 ```
 
 ---
+CLI
+```bash 
+ln -s /usr/local/bin/create-remote /Users/username/path_to_project/create-remote/create-remote.sh
+
+create-remote DashboardPage
+```
+
+---
 
 Note:
 - The nav list styling changes when the `/img` route is accessed, and that styling persists after navigating away from `/img`.
