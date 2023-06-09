@@ -1,6 +1,4 @@
 .DS_Store
-*env
-*env.js
+*.env
 *dist
 *node_modules
-webpack.env.js

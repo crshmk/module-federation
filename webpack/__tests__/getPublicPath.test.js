@@ -9,9 +9,13 @@ describe('getPublicPath webpack util for setting output.publicPath', () => {
     expect(getPublicPath(prodArgv, 'host')).toBe('/')
   })
 
+  test('creates a url for local host', () => {
+    expect(getPublicPath(devArgv, 'host')).toBe('http://localhost:8000/')
+  })
+
   test('creates a url for prod remote', () => {
     expect(getPublicPath(prodArgv, 'remote2'))
-      .toBe('https://teflpoint.com/remotes/remote2/')
+      .toBe('https://site.com/remotes/remote2/')
   })
 
   test('creates a url for local remote', () => {

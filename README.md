@@ -8,14 +8,14 @@
 
 1.)
 ```bash
-mv webpack.env.sample.js webpack.env.js
+mv .sample-env .env
 ```
+set env values
 
 2.) set server information (domain / server path to remote bundles)
 - `host/src/index.html` `<script>` tags 
-- `webpack.env.js`
 
-3.) 
+3.)  
 ```bash 
 # local 
 npm start

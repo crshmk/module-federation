@@ -1,17 +1,15 @@
-const webpack = require('webpack')
-require('dotenv').config({ path: '../../.env' })
-
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ModuleFederationPlugin = 
-  require('webpack/lib/container/ModuleFederationPlugin')
 
-const { dependencies } = require('../../package.json')
-const { remotes } = require('../../webpack.env')
-  
-const resolve = filePath => path.resolve(__dirname, filePath)
+const {
+  dependencies,
+  getPublicPath,
+  getRemotes,
+  HtmlWebpackPlugin,
+  ModuleFederationPlugin
+} = require('../../webpack')
 
-const { getPublicPath } = require('../../webpack/getPublicPath')
+const resolve = filePath => 
+  path.resolve(__dirname, filePath)
 
 module.exports = (_, argv) => ({
   // mode: 'development',
@@ -54,11 +52,7 @@ module.exports = (_, argv) => ({
     new ModuleFederationPlugin({
       name: 'remote1',
       filename: 'remoteEntry.js',
-      remotes: {
-        host: (argv.mode === 'development' 
-        ? remotes.host.local 
-        : remotes.host.remotes)
-      },
+      remotes: getRemotes(argv),
       exposes: {
         './Buttons': './src/Buttons/index.js',
         './Img': './src/Img/index.js'

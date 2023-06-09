@@ -1,17 +1,16 @@
-const webpack = require('webpack')
-require('dotenv').config({ path: '../../.env' })
-
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ModuleFederationPlugin = 
-  require('webpack/lib/container/ModuleFederationPlugin')
+const webpack = require('webpack')
 
-const { dependencies } = require('../../package.json')
-const { remotes } = require('../../webpack.env')
+const {
+  dependencies,
+  getPublicPath,
+  getRemotes,
+  HtmlWebpackPlugin,
+  ModuleFederationPlugin
+} = require('../../webpack')
 
-const { getPublicPath } = require('../../webpack/getPublicPath')
-
-const resolve = filePath => path.resolve(__dirname, filePath)
+const resolve = filePath => 
+  path.resolve(__dirname, filePath)
 
 module.exports = (_, argv) => ({
   // mode: 'development',
@@ -57,17 +56,7 @@ module.exports = (_, argv) => ({
     new ModuleFederationPlugin({
       name: 'host',
       filename: 'remoteEntry.js',
-      remotes: {
-        host: (argv.mode === 'development' 
-        ? remotes.host.local 
-        : remotes.host.remote),
-        remote1: (argv.mode === 'development' 
-        ? remotes.remote1.local
-        : remotes.remote1.remote),
-        remote2: (argv.mode === 'development' 
-        ? remotes.remote2.local 
-        : remotes.remote1.remote)
-      },
+      remotes: getRemotes(argv),
       exposes: {
         './useCount': './src/store/useCount.js'
       },

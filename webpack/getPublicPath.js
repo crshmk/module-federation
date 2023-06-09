@@ -9,30 +9,26 @@
  * 'https://domain.com/remotes/remote2/'
  **/ 
 const { moduleNames } = require('../moduleNames')
-
 const { domain, hostPort } = process.env
 
 const equals = x => y => x === y
 
-const findIndex = moduleName => 
+const findModuleIndex = moduleName => 
   moduleNames.findIndex(equals(moduleName))
 
 // 'http://localhost:9002/'
 const getLocalPublicPath = moduleName => {
-  const i = findIndex(moduleName)
+  const i = findModuleIndex(moduleName)
   const port = +hostPort + i 
-  console.log(port, hostPort, i)
   return `http://localhost:${port}/`
 }
 
-// 'https://domain.com/remotes/remote2/'
-const getProdPublicPath = moduleName => {
-  const i = findIndex(moduleName)
-  return i === 0 
-  ? '/'
-  : `https://${domain}/remotes/${moduleName}/`
-}
+const isHost = moduleName => 
+findModuleIndex(moduleName) === 0
 
+// 'https://domain.com/remotes/remote2/'
+const getProdPublicPath = moduleName => 
+  isHost(moduleName) ? '/' : `https://${domain}/remotes/${moduleName}/`
 
 const getPublicPath = (argv, moduleName) => {
   const { mode } = argv 
