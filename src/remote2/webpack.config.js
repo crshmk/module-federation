@@ -3,9 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ModuleFederationPlugin = 
   require('webpack/lib/container/ModuleFederationPlugin')
 
-const { dependencies } = require('../package.json')
-const { publicPaths, remotes } = require('../webpack.env')
-  
+const { dependencies } = require('../../package.json')
+const { publicPaths, remotes } = require('../../webpack.env')
+
 const resolve = filePath => path.resolve(__dirname, filePath)
 
 module.exports = (_, argv) => ({
@@ -16,11 +16,11 @@ module.exports = (_, argv) => ({
   output: {
     assetModuleFilename: '[name][ext]',
     clean: true,
-    filename: '[name].remote1.[contenthash].js',
+    filename: '[name].remote2.[contenthash].js',
     path: resolve('dist'),
     publicPath: (argv.mode === 'development' 
-    ? publicPaths.remote1.local 
-    : publicPaths.remote1.remote)
+    ? publicPaths.remote2.local 
+    : publicPaths.remote2.remote)
   },
   resolve: {
     extensions: ['.js', '.json'],
@@ -49,7 +49,7 @@ module.exports = (_, argv) => ({
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'remote1',
+      name: 'remote2',
       filename: 'remoteEntry.js',
       remotes: {
         host: (argv.mode === 'development' 
@@ -57,8 +57,7 @@ module.exports = (_, argv) => ({
         : remotes.host.remotes)
       },
       exposes: {
-        './Buttons': './src/Buttons/index.js',
-        './Img': './src/Img/index.js'
+        './List': './src/List/index.js'
       },
       shared: {
         ...dependencies,
@@ -70,11 +69,8 @@ module.exports = (_, argv) => ({
           singleton: true,
           requiredVersion: dependencies['react-dom'],
         },
-        'react-router-dom': {
-          singleton: true,
-          requiredVersion: dependencies['react-router-dom'],
-        },
-      },    }),
+      },    
+    }),
     new HtmlWebpackPlugin({
       template: resolve('src/index.html')
     })
@@ -85,7 +81,7 @@ module.exports = (_, argv) => ({
     // hot: true,
     // liveReload: true,
     // open: true,
-    port: 9001,
+    port: 9002,
     static: resolve('dist')
   }
 })

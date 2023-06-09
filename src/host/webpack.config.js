@@ -3,27 +3,27 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ModuleFederationPlugin = 
   require('webpack/lib/container/ModuleFederationPlugin')
 
-const { dependencies } = require('../package.json')
-const { publicPaths, remotes } = require('../webpack.env')
+const { dependencies } = require('../../package.json')
+const { publicPaths, remotes } = require('../../webpack.env')
 
 const resolve = filePath => path.resolve(__dirname, filePath)
 
 module.exports = (_, argv) => ({
   // mode: 'development',
-  entry: {
-    main: resolve('src/index.js')
+ // entry: {
+   // main: resolve('src/index.js')
+ // },
+  resolve: {
+    extensions: ['.js', '.json'],
   },
   output: {
     assetModuleFilename: '[name][ext]',
     clean: true,
-    filename: '[name].remote2.[contenthash].js',
+    filename: '[name].host.[contenthash].js',
     path: resolve('dist'),
-    publicPath: (argv.mode === 'development' 
-    ? publicPaths.remote2.local 
-    : publicPaths.remote2.remote)
-  },
-  resolve: {
-    extensions: ['.js', '.json'],
+    publicPath:(argv.mode === 'development' 
+    ? publicPaths.host.local 
+    : publicPaths.host.remote)
   },
   module: {
     rules: [
@@ -49,15 +49,21 @@ module.exports = (_, argv) => ({
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'remote2',
+      name: 'host',
       filename: 'remoteEntry.js',
       remotes: {
         host: (argv.mode === 'development' 
         ? remotes.host.local 
-        : remotes.host.remotes)
+        : remotes.host.remote),
+        remote1: (argv.mode === 'development' 
+        ? remotes.remote1.local
+        : remotes.remote1.remote),
+        remote2: (argv.mode === 'development' 
+        ? remotes.remote2.local 
+        : remotes.remote1.remote)
       },
       exposes: {
-        './List': './src/List/index.js'
+        './useCount': './src/store/useCount.js'
       },
       shared: {
         ...dependencies,
@@ -69,10 +75,16 @@ module.exports = (_, argv) => ({
           singleton: true,
           requiredVersion: dependencies['react-dom'],
         },
-      },    
+        'react-router-dom': {
+          singleton: true,
+          requiredVersion: dependencies['react-router-dom'],
+        },
+      },
     }),
     new HtmlWebpackPlugin({
-      template: resolve('src/index.html')
+      template: (argv.mode === 'development' 
+      ? './src/index-dev.html' 
+      : './src/index.html')
     })
   ],
   devtool: 'inline-source-map',
@@ -81,7 +93,7 @@ module.exports = (_, argv) => ({
     // hot: true,
     // liveReload: true,
     // open: true,
-    port: 9002,
-    static: resolve('dist')
+    port: 8001,
+    // static: resolve('dist')
   }
 })
