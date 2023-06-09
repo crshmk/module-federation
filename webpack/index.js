@@ -4,15 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ModuleFederationPlugin = 
   require('webpack/lib/container/ModuleFederationPlugin')
 
-const { dependencies } = require('../package.json')
-
 const { getPublicPath } = require('./getPublicPath')
 const { getRemotes } = require('./getRemotes')
+const { sharedDependencies } = require('./sharedDependencies')
 
 module.exports = {
-  dependencies,
   getPublicPath,
   getRemotes,
   HtmlWebpackPlugin,
-  ModuleFederationPlugin
+  ModuleFederationPlugin,
+  sharedDependencies
 }

@@ -1,11 +1,11 @@
 const path = require('path')
 
 const {
-  dependencies,
   getPublicPath,
   getRemotes,
   HtmlWebpackPlugin,
-  ModuleFederationPlugin
+  ModuleFederationPlugin,
+  sharedDependencies
 } = require('../../webpack')
 
 const resolve = filePath => 
@@ -56,17 +56,7 @@ module.exports = (_, argv) => ({
       exposes: {
         './List': './src/List/index.js'
       },
-      shared: {
-        ...dependencies,
-        react: {
-          singleton: true,
-          requiredVersion: dependencies.react,
-        },
-        'react-dom': {
-          singleton: true,
-          requiredVersion: dependencies['react-dom'],
-        },
-      },    
+      shared: sharedDependencies    
     }),
     new HtmlWebpackPlugin({
       template: resolve('src/index.html')

@@ -2,11 +2,11 @@ const path = require('path')
 const webpack = require('webpack')
 
 const {
-  dependencies,
   getPublicPath,
   getRemotes,
   HtmlWebpackPlugin,
-  ModuleFederationPlugin
+  ModuleFederationPlugin,
+  sharedDependencies
 } = require('../../webpack')
 
 const resolve = filePath => 
@@ -60,21 +60,7 @@ module.exports = (_, argv) => ({
       exposes: {
         './useCount': './src/store/useCount.js'
       },
-      shared: {
-        ...dependencies,
-        react: {
-          singleton: true,
-          requiredVersion: dependencies.react,
-        },
-        'react-dom': {
-          singleton: true,
-          requiredVersion: dependencies['react-dom'],
-        },
-        'react-router-dom': {
-          singleton: true,
-          requiredVersion: dependencies['react-router-dom'],
-        },
-      },
+      shared: sharedDependencies
     }),
     new HtmlWebpackPlugin({
       template: (argv.mode === 'development' 
