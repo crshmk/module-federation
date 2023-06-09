@@ -1,6 +1,7 @@
 const path = require('path')
 
 const {
+  commonWebpackConfig,
   getPublicPath,
   getRemotes,
   HtmlWebpackPlugin,
@@ -12,41 +13,13 @@ const resolve = filePath =>
   path.resolve(__dirname, filePath)
 
 module.exports = (_, argv) => ({
-  // mode: 'development',
-  entry: {
-    main: resolve('src/index.js')
-  },
+  ...commonWebpackConfig,
   output: {
     assetModuleFilename: '[name][ext]',
     clean: true,
     filename: '[name].remote2.[contenthash].js',
     path: resolve('dist'),    
     publicPath: getPublicPath(argv, 'remote2')
-  },
-  resolve: {
-    extensions: ['.js', '.json'],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(jpg|jpeg|png|svg)$/,
-        type: 'asset/resource'
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      }
-    ]
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -62,7 +35,6 @@ module.exports = (_, argv) => ({
       template: resolve('src/index.html')
     })
   ],
-  devtool: 'inline-source-map',
   devServer: {
     historyApiFallback: true,
     // hot: true,

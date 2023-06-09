@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 const {
+  commonWebpackConfig,
   getPublicPath,
   getRemotes,
   HtmlWebpackPlugin,
@@ -12,42 +13,17 @@ const {
 const resolve = filePath => 
   path.resolve(__dirname, filePath)
 
-module.exports = (_, argv) => ({
-  // mode: 'development',
+module.exports = async (_, argv) => ({
  // entry: {
    // main: resolve('src/index.js')
  // },
-  resolve: {
-    extensions: ['.js', '.json'],
-  },
+  ...commonWebpackConfig,
   output: {
     assetModuleFilename: '[name][ext]',
     clean: true,
     filename: '[name].host.[contenthash].js',
     path: resolve('dist'),
     publicPath: getPublicPath(argv, 'host')
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(jpg|jpeg|png|svg)$/,
-        type: 'asset/resource'
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      }
-    ]
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -68,7 +44,6 @@ module.exports = (_, argv) => ({
       : './src/index.html')
     })
   ],
-  devtool: 'inline-source-map',
   devServer: {
     historyApiFallback: true,
     // hot: true,
