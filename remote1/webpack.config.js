@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ModuleFederationPlugin = 
   require('webpack/lib/container/ModuleFederationPlugin')
 
-const { dependencies } = require('./package.json')
+const { dependencies } = require('../package.json')
 const { publicPaths, remotes } = require('../webpack.env')
   
 const resolve = filePath => path.resolve(__dirname, filePath)
