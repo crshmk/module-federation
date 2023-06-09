@@ -1,0 +1,9 @@
+{
+  "name": "module-federation",
+  "version": "0.0.1",
+  "description": "React module federation setup",
+  "scripts": {
+    "create-remote": "./scripts/create-remote/create-remote.sh"
+  },
+  "author": "chris hammock"
+}

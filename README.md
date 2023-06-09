@@ -27,9 +27,7 @@ npm run build
 ---
 CLI
 ```bash 
-ln -s /usr/local/bin/create-remote /Users/username/path_to_project/create-remote/create-remote.sh
-
-create-remote DashboardPage
+npm run create-remote DashboardPage
 ```
 
 ---
