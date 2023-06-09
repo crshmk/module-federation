@@ -1,10 +1,15 @@
+const webpack = require('webpack')
+require('dotenv').config({ path: '../../.env' })
+
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ModuleFederationPlugin = 
   require('webpack/lib/container/ModuleFederationPlugin')
 
 const { dependencies } = require('../../package.json')
-const { publicPaths, remotes } = require('../../webpack.env')
+const { remotes } = require('../../webpack.env')
+
+const { getPublicPath } = require('../../webpack/getPublicPath')
 
 const resolve = filePath => path.resolve(__dirname, filePath)
 
@@ -21,9 +26,7 @@ module.exports = (_, argv) => ({
     clean: true,
     filename: '[name].host.[contenthash].js',
     path: resolve('dist'),
-    publicPath:(argv.mode === 'development' 
-    ? publicPaths.host.local 
-    : publicPaths.host.remote)
+    publicPath: getPublicPath(argv, 'host')
   },
   module: {
     rules: [
@@ -48,6 +51,9 @@ module.exports = (_, argv) => ({
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
+    }),
     new ModuleFederationPlugin({
       name: 'host',
       filename: 'remoteEntry.js',
@@ -93,7 +99,7 @@ module.exports = (_, argv) => ({
     // hot: true,
     // liveReload: true,
     // open: true,
-    port: 8001,
+    port: 8000,
     // static: resolve('dist')
   }
 })

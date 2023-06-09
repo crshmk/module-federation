@@ -1,19 +1,3 @@
-// note the protocol distinctions
-const publicPaths = {
-  host: {
-    local: 'http://localhost:8001/',
-    remote: '/'
-  },
-  remote1: {
-    local: 'http://localhost:9001/',
-    remote: 'https://domain.com/remotes/remote1/'
-  },
-  remote2: {
-    local: 'http://localhost:9002/',
-    remote: 'https://domain.com/remotes/remote2/'
-  } 
-}
-
 const remotes = {
   host: {
     local: 'host@http://localhost:8001/remoteEntry.js' ,
