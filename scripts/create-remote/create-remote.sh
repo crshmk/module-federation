@@ -22,7 +22,6 @@ mkdir $DEST
 
 rsync -a $SOURCE $DEST --exclude node_modules --exclude dist --exclude .git
 
-echo "$COMPONENT_NAME created
-"
-
 node ./addModuleName $COMPONENT_NAME
+
+node ./updateWebpackConfig $COMPONENT_NAME

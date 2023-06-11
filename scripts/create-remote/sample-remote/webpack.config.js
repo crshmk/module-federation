@@ -17,13 +17,13 @@ module.exports = (_, argv) => ({
   output: {
     assetModuleFilename: '[name][ext]',
     clean: true,
-    filename: '[name].remote2.[contenthash].js',
+    filename: {{fileName}},
     path: resolve('dist'),    
-    publicPath: getPublicPath(argv, 'remote2')
+    publicPath: getPublicPath(argv, {{moduleName}})
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'remote2',
+      name: {{moduleName}},
       filename: 'remoteEntry.js',
       remotes: getRemotes(argv),
       exposes: {
@@ -40,7 +40,7 @@ module.exports = (_, argv) => ({
     // hot: true,
     // liveReload: true,
     // open: true,
-    port: 8002,
+    port: {{port}},
     static: resolve('dist')
   }
 })
