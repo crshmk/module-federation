@@ -16,7 +16,7 @@
  * }
  * 
  */
-const { moduleNames } = require('../moduleNames')
+const moduleNames = require('../moduleNames.json')
 const { getPublicPath } = require('./getPublicPath')
 const { domain } = process.env
 

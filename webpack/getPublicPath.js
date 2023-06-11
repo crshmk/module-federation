@@ -8,7 +8,7 @@
  * production mode 
  * 'https://domain.com/remotes/remote2/'
  **/ 
-const { moduleNames } = require('../moduleNames')
+const moduleNames = require('../moduleNames.json')
 const { domain, hostPort } = process.env
 
 const equals = x => y => x === y
