@@ -2,7 +2,7 @@
 
 COMPONENT_NAME=$1
 PARENT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-SOURCE="${PARENT_PATH}/../../src/remote2/"
+SOURCE="${PARENT_PATH}/sample-remote/"
 DEST="${PARENT_PATH}/../../src/${COMPONENT_NAME}"
 
 cd "$PARENT_PATH"
