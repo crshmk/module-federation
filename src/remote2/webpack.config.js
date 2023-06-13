@@ -19,7 +19,8 @@ module.exports = (_, argv) => ({
     clean: true,
     filename: '[name].remote2.[contenthash].js',
     path: resolve('dist'),    
-    publicPath: getPublicPath(argv, 'remote2')
+    publicPath: getPublicPath(argv, 'remote2'),
+    uniqueName: 'remote2-remote'
   },
   plugins: [
     new ModuleFederationPlugin({

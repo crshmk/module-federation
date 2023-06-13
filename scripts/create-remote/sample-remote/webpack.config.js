@@ -19,7 +19,8 @@ module.exports = (_, argv) => ({
     clean: true,
     filename: {{fileName}},
     path: resolve('dist'),    
-    publicPath: getPublicPath(argv, {{moduleName}})
+    publicPath: getPublicPath(argv, {{moduleName}}),
+    uniqueName: {{uniqueName}}
   },
   plugins: [
     new ModuleFederationPlugin({

@@ -14,7 +14,8 @@ const mapReplace = replacements => str => {
 
 const setTemplateVars = moduleName => mapReplace({
   '{{fileName}}': `'[name].${moduleName}.[contenthash].js'`,
-  '{{moduleName}}': `'${moduleName}'`
+  '{{moduleName}}': `'${moduleName}'`,
+  '{{uniqueName}}': `'${moduleName}-remote'`
 })
 
 module.exports = { setTemplateVars }

@@ -23,7 +23,8 @@ module.exports = async (_, argv) => ({
     clean: true,
     filename: '[name].host.[contenthash].js',
     path: resolve('dist'),
-    publicPath: getPublicPath(argv, 'host')
+    publicPath: getPublicPath(argv, 'host'),
+    uniqueName: 'host-module'
   },
   plugins: [
     new webpack.DefinePlugin({
