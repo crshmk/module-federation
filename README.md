@@ -29,6 +29,9 @@ CLI
 ```bash 
 npm run create-remote DashboardPage
 ```
+```bash 
+npm run show-ports
+```
 
 ---
 

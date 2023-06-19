@@ -4,11 +4,13 @@
   "description": "React module federation setup",
   "scripts": {
     "create-remote": "./scripts/create-remote/create-remote.sh",
+    "show-ports": "node ./scripts/showPorts",
     "test": "jest --setupFiles dotenv/config"
   },
   "author": "chris hammock",
   "license": "ISC",
   "dependencies": {
+    "ramda": "^0.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1"
